@@ -24,6 +24,8 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.hoverable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -115,6 +117,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.cashewteam.novatext.android.data.BigBangSettings
 import com.cashewteam.novatext.android.data.JiebaWarmUpTracker
+import com.cashewteam.novatext.android.util.interactiveHover
 import com.cashewteam.novatext.android.service.BoomActivityLauncher
 import com.cashewteam.novatext.android.service.BoomOcrLauncher
 import com.cashewteam.novatext.android.service.FloatingBallService
@@ -1095,11 +1098,20 @@ private fun SettingsTopBar(
                     .heightIn(min = 32.dp),
             ) {
                 if (showBack) {
+                    val interactionSource = remember { MutableInteractionSource() }
                     Box(
                         modifier = Modifier
                             .align(Alignment.CenterStart)
-                            .size(32.dp)
-                            .clickable(onClick = onBack),
+                            .size(44.dp)
+                            .hoverable(interactionSource = interactionSource, enabled = true)
+                            .interactiveHover(
+                                interactionSource = interactionSource,
+                            )
+                            .clickable(
+                                interactionSource = interactionSource,
+                                indication = null,
+                                onClick = onBack,
+                            ),
                         contentAlignment = Alignment.Center,
                     ) {
                         Icon(
