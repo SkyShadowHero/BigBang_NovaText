@@ -708,7 +708,6 @@ private fun SettingsScreen(
             .fillMaxSize()
             .background(palette.background)
             .background(stripeBrush),
-        contentAlignment = Alignment.TopCenter,
     ) {
         AnimatedContent(
             targetState = currentPage,
@@ -719,7 +718,7 @@ private fun SettingsScreen(
                     slideInHorizontally { it } togetherWith slideOutHorizontally { -it }
                 }
             },
-            modifier = Modifier.fillMaxHeight().widthIn(max = 600.dp).fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             label = "settingsPage",
         ) { page ->
             when (page) {
@@ -754,7 +753,14 @@ private fun SettingsScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 item {
-                    Column {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.TopCenter,
+                    ) {
+                    Column(
+                        modifier = Modifier.widthIn(max = 600.dp),
+                    ) {
                         Text(
                             text = "Alpha ${BuildConfig.VERSION_NAME}",
                             modifier = Modifier
@@ -774,8 +780,9 @@ private fun SettingsScreen(
                                 onStartFloatingBall = onStartFloatingBall,
                                 onStopFloatingBall = onStopFloatingBall,
                                 onResetFloatingBall = onResetFloatingBall,
-                            )
-                        }
+                        )
+                    }
+                    }
                     }
                 }
 
@@ -1498,9 +1505,14 @@ private fun OverlayStyleSection(
 private fun SettingsSectionCard(content: @Composable ColumnScope.() -> Unit) {
     val palette = LocalSettingsPalette.current
     val shape = RoundedCornerShape(18.dp)
+    Box(
+        modifier = Modifier
+            .fillMaxWidth(),
+        contentAlignment = Alignment.TopCenter,
+    ) {
     Surface(
         modifier = Modifier
-            .fillMaxWidth()
+            .widthIn(max = 600.dp)
             .padding(horizontal = 4.dp, vertical = 14.dp),
         shape = shape,
         color = palette.card,
@@ -1509,9 +1521,10 @@ private fun SettingsSectionCard(content: @Composable ColumnScope.() -> Unit) {
         shadowElevation = 8.dp,
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = 18.dp, vertical = 18.dp),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 18.dp),
             content = content,
         )
+    }
     }
 }
 
