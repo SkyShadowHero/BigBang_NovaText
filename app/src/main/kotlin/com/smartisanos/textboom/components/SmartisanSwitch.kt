@@ -47,8 +47,6 @@ fun SmartisanSwitch(
     val btnBmp    = remember(idBtn)    { BitmapFactory.decodeResource(context.resources, idBtn) }
     val btnPrBmp  = remember(idBtnPr)  { BitmapFactory.decodeResource(context.resources, idBtnPr) }
 
-    val bmpW = bottomBmp.width.toFloat()  // 286
-
     val pillBounds = remember(maskBmp) {
         val w = maskBmp.width
         val h = maskBmp.height
@@ -70,7 +68,7 @@ fun SmartisanSwitch(
     val dispW = with(density) { maskBmp.width.toDp() }
     val dispH = with(density) { maskBmp.height.toDp() }
 
-    val slideRange = 88f / bmpW
+    val slideAmount = (bottomBmp.width - frameBmp.width).toFloat()
 
     var progress by remember { mutableStateOf(if (checked) 1f else 0f) }
     var isPressed by remember { mutableStateOf(false) }
@@ -124,9 +122,8 @@ fun SmartisanSwitch(
         val pw = pillBounds[2].toFloat(); val ph = pillBounds[3].toFloat()
 
         val voff = ((size.height - bottomBmp.height) / 2f).roundToInt()
-        val btnAdj = 3f
-        val slideOff = (-(1f - animProgress) * slideRange * bmpW).roundToInt()
-        val btnOff = (-(1f - animProgress) * slideRange * bmpW + btnAdj).roundToInt()
+        val slideOff = (-(1f - animProgress) * slideAmount).roundToInt()
+        val btnOff = slideOff
 
         val pillPath = Path().apply {
             addRoundRect(androidx.compose.ui.geometry.RoundRect(pl, pt, pl + pw, pt + ph, CornerRadius(ph / 2f)))
